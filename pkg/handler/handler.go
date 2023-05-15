@@ -40,6 +40,8 @@ type Handler interface {
 	// CheckHealth checks the acceld service is healthy and can serve
 	// webhook request.
 	CheckHealth(ctx context.Context) error
+	// get source name
+	FindSoruce(ctx context.Context, host string) string
 }
 
 type LocalHandler struct {
@@ -82,4 +84,13 @@ func (handler *LocalHandler) CheckHealth(ctx context.Context) error {
 	ctx, cancel := context.WithTimeout(ctx, healthCheckTimeout)
 	defer cancel()
 	return handler.adp.CheckHealth(ctx)
+}
+
+func (handler *LocalHandler) FindSoruce(ctx context.Context, hostId string) string {
+	for host, config := range handler.cfg.Provider.Source {
+		if config.InstanceId == hostId {
+			return host
+		}
+	}
+	return ""
 }

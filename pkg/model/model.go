@@ -23,8 +23,10 @@ const TopicPushArtifact = "PUSH_ARTIFACT"
 
 // Payload of notification event
 type Payload struct {
-	Type      string     `json:"type"`
-	EventData *EventData `json:"event_data,omitempty"`
+	Type       string         `json:"type"`
+	EventData  *EventData     `json:"event_data,omitempty"`
+	PushData   *AcrPushData   `json:"push_data,omitempty"`
+	Repository *AcrRepository `json:"repository,omitempty"`
 }
 
 // EventData of notification event payload
@@ -35,4 +37,21 @@ type EventData struct {
 // Resource describe infos of resource triggered notification
 type Resource struct {
 	ResourceURL string `json:"resource_url,omitempty"`
+}
+
+type AcrPushData struct {
+	Digest   string `json:"digest,omitempty"`
+	PushedAt string `json:"pushed_at,omitempty"`
+	Tag      string `json:"tag,omitempty"`
+}
+
+type AcrRepository struct {
+	DateCreated  string `json:"date_created,omitempty"`
+	InstanceId   string `json:"instanceId,omitempty"`
+	Name         string `json:"name,omitempty"`
+	Namespace    string `json:"namespace,omitempty"`
+	Region       string `json:"region,omitempty"`
+	RepoId       string `json:"repoId,omitempty"`
+	RepoFullName string `json:"repo_full_name,omitempty"`
+	RepoType     string `json:"repo_type,omitempty"`
 }

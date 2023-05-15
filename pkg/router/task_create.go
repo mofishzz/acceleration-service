@@ -41,6 +41,19 @@ func (r *LocalRouter) CreateTask(ctx echo.Context) error {
 	}
 
 	if payload.Type != model.TopicPushArtifact {
+		if payload.PushData != nil {
+			var ref = r.handler.FindSoruce(ctx.Request().Context(), payload.Repository.InstanceId) +
+				"/" + payload.Repository.RepoFullName + ":" + payload.PushData.Tag
+			if err := r.handler.Convert(ctx.Request().Context(), ref, sync); err != nil {
+				return util.ReplyError(
+					ctx, http.StatusInternalServerError, errdefs.ErrConvertFailed,
+					err.Error(),
+				)
+			}
+
+			return ctx.JSON(http.StatusOK, "Ok")
+		}
+
 		logger.Warnf("unsupported payload type %s", payload.Type)
 		return ctx.JSON(http.StatusOK, "Ok")
 	}

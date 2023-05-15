@@ -55,9 +55,10 @@ type Webhook struct {
 }
 
 type SourceConfig struct {
-	Auth     string  `yaml:"auth"`
-	Insecure bool    `yaml:"insecure"`
-	Webhook  Webhook `yaml:"webhook"`
+	Auth       string  `yaml:"auth"`
+	Insecure   bool    `yaml:"insecure"`
+	Webhook    Webhook `yaml:"webhook"`
+	InstanceId string  `yaml:"instanceId"`
 }
 
 type ContainerdConfig struct {
